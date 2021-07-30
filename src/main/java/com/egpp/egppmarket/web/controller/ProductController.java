@@ -2,6 +2,10 @@ package com.egpp.egppmarket.web.controller;
 
 import com.egpp.egppmarket.domain.Product;
 import com.egpp.egppmarket.domain.service.ProductService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +21,8 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/all")
+    @ApiOperation("Get all supermarket products")
+    @ApiResponse(code = 200, message = "OK")
 //    public List<Product> getAll(){
 //        return productService.getAll();
 //     }
@@ -25,10 +31,16 @@ public class ProductController {
        }
 
     @GetMapping("/{id}")
+    @ApiOperation("Search a product with an ID")
+    @ApiResponses({
+            @ApiResponse(code=200,message = "OK"),
+            @ApiResponse(code=404, message = "Product not found")
+    })
 //     public Optional<Product> getProduct(@PathVariable("id") int productId) {
 //        return productService.getProduct(productId);
 //     }
-        public ResponseEntity<Product> getProduct(@PathVariable("id") int productId) {
+        public ResponseEntity<Product> getProduct(@ApiParam(value="The id of the product ", required = true, example = "7")
+                                                      @PathVariable("id") int productId) {
         return productService.getProduct(productId)
                 .map(product -> new ResponseEntity<>(product,HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
