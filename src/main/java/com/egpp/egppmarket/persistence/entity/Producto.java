@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Table(name="productos")
 
 public class Producto {
-
+    @Id
     @GeneratedValue(strategy =GenerationType.IDENTITY)
     @Column(name="id_producto")
     private Integer idProducto;
@@ -27,6 +27,18 @@ public class Producto {
     private Integer cantidadStock;
 
     private Boolean estado;
+
+    @ManyToOne
+    @JoinColumn(name="id_categoria", insertable = false, updatable = false)
+    private Categoria categoria;
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
 
     public Integer getIdProducto() {
         return idProducto;

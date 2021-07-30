@@ -1,6 +1,7 @@
 package com.egpp.egppmarket.persistence.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -19,6 +20,10 @@ public class Cliente {
 
     @Column(name="correo_electronico")
     private String correoElectronico;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<Compra> compras;
+
 
     public String getId() {
         return id;

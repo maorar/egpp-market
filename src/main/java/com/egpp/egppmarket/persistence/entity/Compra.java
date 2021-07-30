@@ -1,7 +1,8 @@
 package com.egpp.egppmarket.persistence.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name="compras")
@@ -14,13 +15,36 @@ public class Compra {
     @Column(name="id_cliente")
     private String idCliente;
 
-    private LocalDate fecha;
+    private LocalDateTime fecha;
 
     @Column(name="medio_pago")
     private String medioPago;
 
     private String comentario;
     private  String estado;
+
+    @ManyToOne
+    @JoinColumn(name="id_cliente", insertable = false,updatable = false )
+    private Cliente cliente;
+
+    @OneToMany(mappedBy = "compra", cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
+    private List<ComprasProducto> productos;
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public List<ComprasProducto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<ComprasProducto> productos) {
+        this.productos = productos;
+    }
 
     public Integer getIdCompra() {
         return idCompra;
@@ -38,11 +62,11 @@ public class Compra {
         this.idCliente = idCliente;
     }
 
-    public LocalDate getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 
